@@ -25,12 +25,14 @@ import org.apache.dubbo.demo.DemoService;
 import org.springframework.stereotype.Component;
 
 @Component("demoServiceComponent")
-public class DemoServiceComponent implements DemoService {
-    @Reference
+public class DemoServiceComponent{
+    @Reference(timeout = 1000,
+            url = "dubbo://localhost:20880",
+            stub = "org.apache.dubbo.demo.consumer.comp.DemoServiceStub",
+            mock = "org.apache.dubbo.demo.consumer.comp.DemoServiceMock")
     private DemoService demoService;
 
-    @Override
-    public String sayHello(String name) {
+    public String invoke(String name) {
         return demoService.sayHello(name);
     }
 }
